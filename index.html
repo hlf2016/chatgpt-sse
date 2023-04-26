@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE</title>
+</head>
+
+<body>
+    <h1>Server Sent Events</h1>
+    <h2 id="currentUser"></h2>
+    <div id="author"></div>
+    <div id="message"></div>
+
+    <div>
+        <input id="msg" />
+        <button id="chat">chat</button>
+    </div>
+</body>
+<script>
+    let name = prompt('Enter your name') ?? 'test'
+    document.getElementById('currentUser').innerHTML = '当前用户：' + name
+    let chatBtn = document.getElementById('chat')
+    chatBtn.addEventListener('click', () => {
+        let msg = document.getElementById('msg').value
+
+        let source = new EventSource(`http://localhost:8000/stream?msg=${encodeURIComponent(msg)}&name=${encodeURIComponent(name)}`)
+
+        source.onopen = (event) => {
+            console.log(event)
+        }
+
+        source.onmessage = (event) => {
+            if (event.data === 'stop') {
+                source.close()
+                return
+            }
+            let data = JSON.parse(event.data)
+            if (data.role) {
+                document.getElementById('author').innerHTML = data.role
+            }
+
+            if (data.content) {
+                document.getElementById('message').innerHTML += data.content
+            }
+
+        }
+
+        source.onerror = (err) => {
+            console.log(err)
+        }
+
+    })
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,6 @@
+fastapi==0.95.1
+openai==0.27.4
+python-dotenv==1.0.0
+redis==4.5.4
+sse_starlette==1.3.4
+uvicorn==0.21.1
