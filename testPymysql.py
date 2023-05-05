@@ -50,13 +50,15 @@ def esQuery(lastEssayId: int = None):
 
 def mysqlQuery(essayIds: list):
     # Connect to the database
-    connection = pymysql.connect(host='localhost',
-                                 user='user',
-                                 password='password',
-                                 db='db',
-                                 charset='utf8mb4',
-                                 # 数据库连接时指定返回的数据类型为字典类型，这样查询结果会以字典的形式返回。这在对查询结果进行处理时会更加方便，因为字典可以更直观地表示数据。
-                                 cursorclass=pymysql.cursors.DictCursor)
+    connection = pymysql.connect(
+                                    host='localhost',
+                                    user='user',
+                                    password='password',
+                                    db='db',
+                                    charset='utf8mb4',
+                                    # 数据库连接时指定返回的数据类型为字典类型，这样查询结果会以字典的形式返回。在对查询结果进行处理时会更加方便，因为字典可以更直观地表示数据。
+                                        cursorclass=pymysql.cursors.DictCursor
+                                )
     with connection:
         with connection.cursor() as cursor:
             placeholder = ','.join(['%s'] * len(essayIds))
