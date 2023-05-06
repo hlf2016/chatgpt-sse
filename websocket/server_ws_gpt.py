@@ -23,7 +23,15 @@ async def echo(websocket):
         )
         for completion in response:
             delta = completion.get('choices')[0].get('delta')
-            if delta.get('content') or delta.get('role'):
+            print(completion.get('choices')[0])
+            finish_reason = completion.get(
+                'choices')[0].get('finish_reason')
+            if delta:
+                delta.finish = "false"
+                await websocket.send(json.dumps(delta))
+
+            if finish_reason == 'stop':
+                delta.finish = "true"
                 await websocket.send(json.dumps(delta))
 
 

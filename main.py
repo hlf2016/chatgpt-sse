@@ -10,7 +10,6 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from utils import load_env
 
-
 app = FastAPI()
 
 # 处理跨域
