@@ -10,7 +10,12 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from utils import load_env
 
-app = FastAPI()
+# 重新定义 文档地址 方便 nginx 转发后查看地址
+app = FastAPI(
+    openapi_url="/test/openapi.json",
+    docs_url="/test/docs",
+    redoc_url="/test/redoc"
+)
 
 # 处理跨域
 origins = [
