@@ -29,6 +29,7 @@ async def echo(websocket):
             'Accept': 'text/event-stream',
             'Authorization': 'Bearer '+api_key
         }
+        # stream=True required
         response = requests.post(url, headers=headers, data=payload, stream=True)
         sseClient = sseclient.SSEClient(response)
         for event in  sseClient.events():
